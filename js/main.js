@@ -174,6 +174,10 @@ var LETTER = {
         voice(784, 0.06, 0.09, 0.4);
         voice(1567.98, 0.12, 0.05, 0.7, 0.2);
       },
+      clink: function (v) {
+        // Plastic capsules knocking together; v = 0..1 impact strength.
+        voice(rand(1100, 1600), 0, 0.012 + v * 0.03, 0.09, rand(-0.35, 0.35));
+      },
       bonk: function () {
         voice(130.81, 0, 0.1, 0.3);
       },

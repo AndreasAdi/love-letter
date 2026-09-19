@@ -45,10 +45,10 @@
      overlap the ones below). Positions are % of the globe, top-left.
      --------------------------------------------------------------------- */
   var SPOTS = [
-    [19, 70], [39, 71], [59, 70],
-    [7, 52], [28, 53], [50, 51], [71, 53],
-    [12, 35], [32, 35], [53, 34], [72, 36],
-    [23, 19], [43, 18], [62, 20]
+    [20, 70], [40, 72], [60, 70],
+    [10, 54], [30, 55], [50, 54], [70, 55],
+    [20, 38], [40, 38], [60, 38],
+    [45, 22]
   ];
   var GOLD_SPOT = 5;
   var pileCaps = SPOTS.map(function (spot, i) {
@@ -62,13 +62,30 @@
     return cap;
   });
 
-  // Take the highest regular capsule still in the globe (or the gold one).
-  function takeFromPile(gold) {
-    if (gold) return pileCaps[GOLD_SPOT];
-    for (var i = pileCaps.length - 1; i >= 0; i--) {
-      if (i !== GOLD_SPOT && !pileCaps[i].classList.contains('gone')) return pileCaps[i];
+  var interacted = false;
+  document.addEventListener('pointerdown', function () { interacted = true; }, { capture: true, once: true });
+
+  var lastClink = 0;
+  var shakeMood = 0;
+  var physics = window.makeGlobe(pile, pileCaps, {
+    still: reduceMotion,
+    onHit: function (speed) {
+      var now = Date.now();
+      if (!interacted || now - lastClink < 70) return;
+      lastClink = now;
+      sound.clink(Math.min(speed / 3, 1));
+    },
+    onShake: function () {
+      if (busy || face.classList.contains('love')) return;
+      mood('squish');
+      clearTimeout(shakeMood);
+      shakeMood = setTimeout(function () { if (!busy) mood(null); }, 400);
     }
-    return null;
+  });
+
+  function isGold(el) { return el.classList.contains('gold'); }
+  function takeFromPile(gold) {
+    return physics.take(gold ? isGold : function (el) { return !isGold(el); });
   }
 
   /* ---------------------------------------------------------------------
@@ -163,7 +180,7 @@
     turns++;
     grip.style.setProperty('--turn', (turns * 360) + 'deg');
     mood('squish');
-    restart(globe, 'rattle');
+    physics.kick(1.4);
     restart(machine, 'shake');
     sound.crank();
 
@@ -322,7 +339,9 @@
       knob.classList.add('ready');
       var left = TOTAL - turn;
       say(left === 1 ? '★ 1 PLAY LEFT ★' : 'INSERT ♡ TO PLAY');
-      hint.textContent = left === 1 ? 'something sparkly is in there…' : 'again! again!';
+      hint.textContent = left === 1 ? 'something sparkly is in there…'
+        : turn === 1 && physics.hasMotion() ? 'psst… try shaking your phone!'
+        : 'again! again!';
     }
   }
 
@@ -467,7 +486,7 @@
      --------------------------------------------------------------------- */
   globe.addEventListener('pointerdown', function () {
     if (busy) return;
-    restart(globe, 'rattle');
+    physics.kick(1.8);
     sound.tinklePick();
   });
 

@@ -217,15 +217,6 @@ body.party #bg { z-index: 30; }
   pointer-events: none;
 }
 .pile { position: absolute; inset: 0; }
-.globe.rattle .pile { animation: rattle 0.6s ease-in-out; }
-@keyframes rattle {
-  0%, 100% { transform: translate(0, 0) rotate(0); }
-  15% { transform: translate(-4%, -6%) rotate(-8deg); }
-  35% { transform: translate(4%, -3%) rotate(7deg); }
-  55% { transform: translate(-3%, -5%) rotate(-5deg); }
-  75% { transform: translate(2%, -1%) rotate(3deg); }
-}
-
 /* Capsule: top half colored, bottom half clear-ish white, with a seam. */
 .cap {
   --c: var(--pink);
@@ -251,7 +242,9 @@ body.party #bg { z-index: 30; }
   0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 201, 60, 0)); }
   50% { filter: drop-shadow(0 0 8px rgba(255, 201, 60, 0.95)); }
 }
-.cap.gone { opacity: 0; transform: rotate(var(--r, 0deg)) scale(0.2) translateY(200%); }
+/* Pile capsules are placed every frame by js/globe.js. */
+.pile .cap { width: 20%; transform: none; transition: opacity 0.3s, scale 0.3s; will-change: transform; }
+.pile .cap.gone { opacity: 0; scale: 0.2; }
 
 .body {
   position: relative;
