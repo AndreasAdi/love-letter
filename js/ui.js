@@ -12,6 +12,11 @@
   function $(id) { return document.getElementById(id); }
   function rand(a, b) { return a + Math.random() * (b - a); }
   function puff(x, y, n) { if (window.LOVE) window.LOVE.burst(x, y, n); }
+  // Android only; iOS Safari has no vibration API, so this quietly does nothing.
+  function haptic(pattern) {
+    if (!navigator.vibrate || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    try { navigator.vibrate(pattern); } catch (e) {}
+  }
   function centerOf(el) {
     var r = el.getBoundingClientRect();
     return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
@@ -75,7 +80,8 @@
       lastClink = now;
       sound.clink(Math.min(speed / 3, 1));
     },
-    onShake: function () {
+    onShake: function (strength) {
+      haptic(Math.round(10 + strength * 10));
       if (busy || face.classList.contains('love')) return;
       mood('squish');
       clearTimeout(shakeMood);
@@ -183,6 +189,7 @@
     physics.kick(1.4);
     restart(machine, 'shake');
     sound.crank();
+    haptic([8, 90, 8, 90, 8, 90, 8]);
 
     var gold = turn === TOTAL - 1;
     say(gold ? '★ !!! SUPER RARE !!! ★' : 'gacha… gacha…');
@@ -195,6 +202,7 @@
       dropCapsule(gold);
       if (gold) {
         sound.fanfare();
+        haptic([30, 50, 30, 50, 60]);
         var c = centerOf(chute);
         puff(c.x, c.y, 30);
       } else {
@@ -247,6 +255,7 @@
       btn.classList.add('wiggle');
       chute.classList.remove('open');
       sound.bonk();
+      haptic(25);
       busy = false;
       hint.textContent = gold ? 'ooh, a golden one… tap it!' : 'tap the capsule!';
       btn.focus({ preventScroll: true });
@@ -323,6 +332,7 @@
     $('prize-text').textContent = reason.text;
     $('prize-keep').textContent = again ? 'aww, okay' : 'add to collection';
     sound.pop();
+    haptic([15, 40, 35]);
     showModal(prize, $('prize-keep'), again ? null : function () {
       fillSlot(i);
       afterPrize();
@@ -375,7 +385,7 @@
   var answered = false;
 
   function openLetter(again) {
-    if (!again) sound.pop();
+    if (!again) { sound.pop(); haptic([15, 40, 35]); }
     else sound.tinklePick();
     $('close-letter').textContent = answered ? 'fold it back up' : 'okay… now what?';
     showModal(reader, $('close-letter'), function () {
@@ -435,6 +445,7 @@
     noBtn.style.left = xPct + '%';
     noBtn.style.top = yPct + '%';
     sound.bonk();
+    haptic(12);
   }
 
   noBtn.addEventListener('pointerenter', function (e) {
@@ -444,6 +455,7 @@
 
   yesBtn.addEventListener('click', function () {
     answered = true;
+    yesAt = new Date();
     askCard.classList.add('done');
     var yes = $('ask-yes');
     yes.textContent = LETTER.yesMessage;
@@ -453,6 +465,7 @@
     // Let the hearts fly over the card for the big moment.
     document.body.classList.add('party');
     sound.fanfare();
+    haptic([60, 80, 60, 80, 200]);
     // Burst from the card's corners so the yes message stays readable.
     var r = askCard.getBoundingClientRect();
     puff(r.left + 10, r.bottom - 10, 30);
@@ -479,7 +492,89 @@
     sound.fanfare();
     var c = centerOf(globe);
     puff(c.x, c.y, 40);
+    setTimeout(function () { if (!openModal) printReceipt(); }, 1800);
   }
+
+  /* ---------------------------------------------------------------------
+     The receipt: a keepsake the machine prints after the yes
+     --------------------------------------------------------------------- */
+  var receiptModal = $('receipt-modal');
+  var receipt = $('receipt');
+  var trayReceipt = $('tray-receipt');
+  var yesAt = null;
+
+  function add(parent, cls, text) {
+    var el = document.createElement('div');
+    el.className = cls;
+    if (text != null) el.textContent = text;
+    parent.appendChild(el);
+    return el;
+  }
+
+  function row(left, right) {
+    var el = add(receipt, 'r-row');
+    [left, right].forEach(function (text) {
+      var span = document.createElement('span');
+      span.textContent = text;
+      el.appendChild(span);
+    });
+  }
+
+  // Deterministic-looking bars from the names, so it reads like a real code.
+  function barcode(seed) {
+    var box = add(receipt, 'r-barcode');
+    var h = 7;
+    for (var i = 0; i < 64; i++) {
+      h = (h * 31 + seed.charCodeAt(i % seed.length)) % 9973;
+      var bar = document.createElement('span');
+      bar.className = i % 2 ? '' : 'bar';
+      bar.style.width = (1 + (h % 3)) + 'px';
+      box.appendChild(bar);
+    }
+  }
+
+  function buildReceipt() {
+    var when = yesAt || new Date();
+    var MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    var date = ('0' + when.getDate()).slice(-2) + ' ' + MONTHS[when.getMonth()] + ' ' + when.getFullYear();
+    var time = when.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    var names = (LETTER.from + ' \u2661 ' + (LETTER.herName || '')).toUpperCase();
+
+    receipt.textContent = '';
+    add(receipt, 'r-center r-title', 'GACHA \u2661 GACHA');
+    add(receipt, 'r-center r-small', 'the lucky love machine');
+    add(receipt, 'r-rule');
+    row(date, time);
+    row('ORDER', '#000001');
+    add(receipt, 'r-rule');
+    row('PLAYS', String(TOTAL));
+    row('REASONS COLLECTED', LETTER.reasons.length + '/' + LETTER.reasons.length);
+    row('SUPER RARE LETTER', '1');
+    row('"NO" RAN AWAY', dodges + 'x');
+    row('ANSWER', 'YES \u2665');
+    add(receipt, 'r-rule');
+    var box = add(receipt, 'r-prize-box r-center');
+    add(box, 'r-small', 'prize won');
+    add(box, 'r-prize', names);
+    add(box, 'r-stamp', 'TAKEN \u2665');
+    add(receipt, 'r-rule');
+    row('STATUS', 'OFFICIALLY TAKEN');
+    row('VALID', 'FOREVER');
+    add(receipt, 'r-rule');
+    barcode(names + date + time);
+    add(receipt, 'r-center', 'thank you, come again \u2661');
+    add(receipt, 'r-center r-small', LETTER.sign.replace(/[,\s]+$/, ''));
+  }
+
+  function printReceipt() {
+    buildReceipt();
+    trayReceipt.hidden = false;
+    showModal(receiptModal, $('receipt-keep'));
+    [0, 650, 1300].forEach(function (ms) { setTimeout(sound.crank, ms); });
+    haptic([6, 60, 6, 60, 6, 60, 6, 60, 6, 60, 6, 60, 6, 60, 6, 60, 6, 300, 40]);
+  }
+
+  trayReceipt.addEventListener('click', printReceipt);
 
   /* ---------------------------------------------------------------------
      Poking the machine / the background

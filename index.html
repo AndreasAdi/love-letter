@@ -5,11 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>A Letter, Just For You</title>
 <meta name="description" content="A little handmade love letter, just for you." />
+<meta name="theme-color" content="#fdeefa" />
+
+<!-- Link preview (WhatsApp, iMessage, Instagram, ...) -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://loveletter.andreasadi.xyz/" />
+<meta property="og:title" content="Gacha&#9825;Gacha &mdash; a little something, just for you" />
+<meta property="og:description" content="Turn the crank and see what comes out &#9825;" />
+<meta property="og:image" content="https://loveletter.andreasadi.xyz/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="A cute pink capsule-toy machine with a smiling face" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff6f9c' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Gochi+Hand&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Gochi+Hand&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -64,7 +76,13 @@
   <p class="hint" id="hint">turn the crank!</p>
 
   <section class="tray" aria-label="Your collection">
-    <p class="tray-title">my collection <span id="tray-count">0/7</span></p>
+    <p class="tray-title">
+      <span>my collection</span>
+      <span class="tray-right">
+        <button class="tray-receipt" id="tray-receipt" type="button" hidden>receipt</button>
+        <span id="tray-count">0/7</span>
+      </span>
+    </p>
     <ol class="tray-slots" id="tray"></ol>
   </section>
 
@@ -131,6 +149,17 @@
     </div>
     <button class="pill pill-ghost" id="ask-done" type="button" hidden>&#9825; back to the machine</button>
   </section>
+</div>
+
+<!-- After the yes: a keepsake receipt the machine prints -->
+<div class="modal" id="receipt-modal" hidden role="dialog" aria-modal="true" aria-label="Your receipt">
+  <div class="modal-backdrop" data-close></div>
+  <div class="receipt-wrap">
+    <div class="receipt-paper">
+      <div class="receipt" id="receipt"></div>
+    </div>
+    <button class="pill" id="receipt-keep" type="button" data-close>keep it &#9825;</button>
+  </div>
 </div>
 
 <script src="vendor/three.min.js"></script>

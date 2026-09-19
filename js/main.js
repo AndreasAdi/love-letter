@@ -12,6 +12,7 @@ var LETTER = {
   ],
   sign: 'Soli Deo Gloria,',
   from: 'Andreas',
+  herName: 'Magdalena', // printed on the receipt after she says yes
   ps: '',
   reasons: [
     { title: 'Your Heart for God', text: 'Melihat betapa tulus dan aktifnya kamu melayani Tuhan. Kesungguhan imanmu selalu bikin aku terinspirasi dan makin menghormati siapa dirimu.' },

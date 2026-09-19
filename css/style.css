@@ -507,7 +507,19 @@ body.party #bg { z-index: 30; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.tray-title span { color: var(--pink-d); }
+.tray-right { display: flex; align-items: center; gap: 8px; }
+#tray-count { color: var(--pink-d); }
+.tray-receipt {
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--butter);
+  animation: plop 0.5s var(--bounce);
+}
 .tray-slots {
   list-style: none;
   margin: 0;
@@ -837,6 +849,78 @@ body.party #bg { z-index: 30; }
   font-size: 14px;
 }
 .pill-ghost { margin-top: 10px; background: var(--butter); }
+
+/* Receipt: thermal paper with a torn zigzag edge, printed line by line. */
+.receipt-wrap {
+  position: relative;
+  width: min(320px, 100%);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.receipt-paper {
+  width: 100%;
+  /* Outline + offset shadow that follow the zigzag edge. */
+  filter:
+    drop-shadow(1.5px 0 0 var(--ink)) drop-shadow(-1.5px 0 0 var(--ink))
+    drop-shadow(0 1.5px 0 var(--ink)) drop-shadow(0 -1.5px 0 var(--ink))
+    drop-shadow(5px 5px 0 var(--ink));
+}
+.receipt {
+  --zig: 9px;
+  position: relative;
+  padding: 22px 20px calc(20px + var(--zig));
+  font-family: 'Courier Prime', ui-monospace, monospace;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #3a2a30;
+  background: #fffdf6;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zig)) 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zig)) 100%;
+}
+.modal.open .receipt { animation: print 2.2s steps(24, end) both; }
+@keyframes print {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(-24px); }
+  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+.r-center { text-align: center; }
+.r-title { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; }
+.r-small { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; }
+.r-row { display: flex; justify-content: space-between; gap: 12px; }
+.r-row span:last-child { text-align: right; font-weight: 700; }
+.r-rule { margin: 10px 0; border-top: 2px dashed rgba(58, 42, 48, 0.45); }
+.r-prize-box { position: relative; padding: 4px 0; }
+.r-prize {
+  margin: 2px 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--pink-d);
+}
+.r-stamp {
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  padding: 2px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ff3d74;
+  border: 3px solid #ff3d74;
+  border-radius: 8px;
+  transform: rotate(-14deg);
+  opacity: 0;
+}
+.modal.open .r-stamp { animation: stamp 0.35s cubic-bezier(0.5, 0, 0.75, 0) 2.3s forwards; }
+@keyframes stamp {
+  from { opacity: 0; transform: rotate(-14deg) scale(2.4); }
+  to { opacity: 0.85; transform: rotate(-14deg) scale(1); }
+}
+.r-barcode { display: flex; justify-content: center; height: 46px; margin: 12px 0 6px; }
+.r-barcode span { display: block; height: 100%; }
+.r-barcode .bar { background: #3a2a30; }
 
 /* ---------------------------------------------------------------------
    Sound toggle
