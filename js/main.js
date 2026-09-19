@@ -17,7 +17,7 @@ var LETTER = {
     { title: 'Your Heart for God', text: 'Melihat betapa tulus dan aktifnya kamu melayani Tuhan. Kesungguhan imanmu selalu bikin aku terinspirasi dan makin menghormati siapa dirimu.' },
     { title: 'Your Smile & Warmth', text: 'Senyummu yang selalu berhasil bikin suasana jadi tenang dan adem. Every time we hang out, seeing you smile is always the highlight of my day.' },
     { title: 'Our Honest Talks', text: 'Caramu diajak berdiskusi secara terbuka. Kita bisa ngobrolin banyak hal\u2014mulai dari cerita harian, perbedaan latar belakang, sampai mimpi masa depan\u2014dengan tenang dan saling menghargai.' },
-    { title: 'Your Gentle Kindness', text: 'Kebaikan dan keramahanmu ke orang-orang di sekitarmu. You have such a genuine, warm, and loving heart.' },
+    { title: 'Your Brilliant, Caring Mind', text: 'Kamu wanita karier yang cerdas dan sangat bertanggung jawab. Bahkan rela lembur demi kepentingan kantor, karena kamu memang se-care itu. I admire you so much, tapi jangan lupa istirahat juga ya, biar aku yang ingetin.' },
     { title: 'Our Shared Vision', text: 'Kenyataan bahwa kita punya nilai-nilai hidup dan tujuan masa depan yang sejalan. Rasanya lega dan tenang bisa berjalan ke arah yang sama sama kamu.' },
     { title: 'Being My Teammate', text: 'Keterbukaanmu untuk saling belajar dan bertumbuh bareng. Knowing that from today on, I get to navigate life\u2019s journey with you as my teammate.' }
   ],
