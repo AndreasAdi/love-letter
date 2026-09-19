@@ -15,6 +15,9 @@
   var E_BALL = 0.45;          // restitution capsule vs capsule
   var TILT_BIAS = 0.25;       // keeps capsules settling "down" when the phone lies flat
   var SHAKE_AT = 12;          // m/s^2 of motion before it counts as a shake
+  var REST = 0.05;            // below this speed a capsule is settling: bleed it off
+  var ROLL = 0.06;            // below this speed a capsule doesn't visibly roll
+  var TILT_DEADBAND = 0.03;   // ignore hand tremor smaller than this in the tilt
 
   function rand(a, b) { return a + Math.random() * (b - a); }
 
@@ -44,8 +47,8 @@
     /* ---------- simulation ---------- */
     function step(h) {
       var i, j, b, c;
-      gx += (tx - gx) * 0.08;
-      gy += (ty - gy) * 0.08;
+      gx += (tx - gx) * 0.02;
+      gy += (ty - gy) * 0.02;
 
       for (i = 0; i < balls.length; i++) {
         b = balls[i];
@@ -70,7 +73,6 @@
           }
           b.vx *= 0.99;
           b.vy *= 0.99;
-          b.a += ((-b.vx * ny + b.vy * nx) * h / R) / D2R;
         }
       }
 
@@ -93,11 +95,21 @@
             var k = -(1 + E_BALL) * rel / 2;
             b.vx -= k * mx; b.vy -= k * my;
             c.vx += k * mx; c.vy += k * my;
-            b.a -= rel * 40;
-            c.a += rel * 40;
             hit(-rel);
           }
         }
+      }
+    }
+
+    // Spin only from real travel, and let resting capsules come to a stop
+    // instead of trembling against each other under gravity.
+    function settle(h) {
+      for (var i = 0; i < balls.length; i++) {
+        var b = balls[i];
+        if (!b.alive) continue;
+        var v = Math.hypot(b.vx, b.vy);
+        if (v < REST) { b.vx *= 0.8; b.vy *= 0.8; }
+        if (v > ROLL) b.a += (b.vx * h / R) / D2R;
       }
     }
 
@@ -120,7 +132,7 @@
     function frame(t) {
       var dt = last ? Math.min((t - last) / 1000, 0.033) : 0.016;
       last = t;
-      for (var s = 0; s < 4; s++) step(dt / 4);
+      for (var s = 0; s < 4; s++) { step(dt / 4); settle(dt / 4); }
       render();
       requestAnimationFrame(frame);
     }
@@ -135,8 +147,11 @@
       var sy = Math.sin(e.beta * D2R);
       // ...then rotated into screen axes when the phone is held sideways.
       var ang = ((screen.orientation && screen.orientation.angle) || window.orientation || 0) * D2R;
-      tx = sx * Math.cos(ang) - sy * Math.sin(ang);
-      ty = sx * Math.sin(ang) + sy * Math.cos(ang) + TILT_BIAS;
+      var nx = sx * Math.cos(ang) - sy * Math.sin(ang);
+      var ny = sx * Math.sin(ang) + sy * Math.cos(ang) + TILT_BIAS;
+      if (Math.hypot(nx - tx, ny - ty) < TILT_DEADBAND) return;
+      tx = nx;
+      ty = ny;
     }
 
     var prev = null;
