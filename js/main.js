@@ -6,7 +6,7 @@ var LETTER = {
   paragraphs: [
     "Aku menulis ini karena aku mau kamu tahu betapa bersyukurnya aku atas kehadiranmu.",
     "Dari beberapa kali kita jalan dan mengobrol, aku melihat betapa indahnya caramu mengasihi Tuhan dan orang-orang di sekitarmu. Karaktermu, senyummu, dan kesamaan visi yang kita punya membuat aku yakin bahwa aku gak mau jalan sendirian lagi.",
-    { verse: "Serahkanlah hidupmu kepada TUHAN dan percayalah kepada-Nya, dan Ia akan bertindak.", ref: "Mazmur 37:5" },
+    { verse: "Berdua lebih baik dari pada seorang diri, karena mereka menerima upah yang baik dalam jerih payah mereka\u2026 Dan bilamana seorang dapat dialahkan, dua orang akan dapat bertahan. Tali tiga lembar tak mudah diputuskan.", ref: "Pengkhotbah 4:9, 12" },
     "Aku tahu kita datang dari latar belakang gereja yang berbeda, tapi aku percaya pusat iman kita sama. Hari ini aku mau berkomitmen penuh untuk berjalan di sampingmu\u2014saling belajar, saling mendukung karier dan pertumbuhan rohani, serta bernavigasi bareng sebagai tim untuk membangun hubungan yang terarah menuju pernikahan.",
     "Terima kasih sudah memilih untuk melangkah bersama. I\u2019m so looking forward to building our future together."
   ],
