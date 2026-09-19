@@ -9,14 +9,14 @@
   var D2R = Math.PI / 180;
   var R = 0.1;                // capsule radius, in pile widths (.pile .cap is 20% wide)
   var WALL = 0.5 - R - 0.005; // max distance of a capsule centre from the middle
-  var G = 3.2;                // gravity, pile widths / s^2
+  var G = 5.5;                // gravity, pile widths / s^2
   var DAMP = 0.998;           // per substep air drag
   var E_WALL = 0.35;          // restitution against the glass
   var E_BALL = 0.45;          // restitution capsule vs capsule
   var TILT_BIAS = 0.25;       // keeps capsules settling "down" when the phone lies flat
   var SHAKE_AT = 12;          // m/s^2 of motion before it counts as a shake
-  var REST = 0.05;            // below this speed a capsule is settling: bleed it off
-  var ROLL = 0.06;            // below this speed a capsule doesn't visibly roll
+  var REST = 0.1;            // below this speed a capsule is settling: bleed it off
+  var ROLL = 0.14;            // below this speed a capsule doesn't visibly roll
   var TILT_DEADBAND = 0.03;   // ignore hand tremor smaller than this in the tilt
 
   function rand(a, b) { return a + Math.random() * (b - a); }
@@ -47,8 +47,8 @@
     /* ---------- simulation ---------- */
     function step(h) {
       var i, j, b, c;
-      gx += (tx - gx) * 0.02;
-      gy += (ty - gy) * 0.02;
+      gx += (tx - gx) * 0.12;
+      gy += (ty - gy) * 0.12;
 
       for (i = 0; i < balls.length; i++) {
         b = balls[i];
