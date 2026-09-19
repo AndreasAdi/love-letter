@@ -5,138 +5,137 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>A Letter, Just For You</title>
 <meta name="description" content="A little handmade love letter, just for you." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f96292' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E" />
-
-<!-- Tailwind via Play CDN — keeps this project build-step free -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          blush: {
-            50: '#fff5f8', 100: '#ffe4ee', 200: '#ffc9dc', 300: '#ffa5c4',
-            400: '#ff86ab', 500: '#f96292', 600: '#e2437a', 700: '#c22f63'
-          },
-          cream: '#fffaf4',
-          plum: '#57263d'
-        },
-        fontFamily: {
-          display: ['"Baloo 2"', 'ui-rounded', 'cursive'],
-          body: ['Quicksand', 'ui-rounded', 'sans-serif'],
-          hand: ['Caveat', 'cursive']
-        }
-      }
-    }
-  };
-</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff6f9c' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Gochi+Hand&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="font-body text-plum bg-cream min-h-screen overflow-x-hidden antialiased">
+<body>
 
 <canvas id="bg" aria-hidden="true"></canvas>
-<div id="hearts-layer" aria-hidden="true"></div>
 
-<button id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"
-  class="fixed top-5 right-5 z-40 w-11 h-11 rounded-full bg-white/70 backdrop-blur shadow-md flex items-center justify-center text-blush-600 hover:bg-white transition">
-  <svg id="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/>
-    <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
-    <path d="M18.5 5.5a9.4 9.4 0 0 1 0 13"/>
-  </svg>
-  <svg id="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 hidden">
-    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/>
-    <line x1="16" y1="9" x2="22" y2="15"/>
-    <line x1="22" y1="9" x2="16" y2="15"/>
-  </svg>
-</button>
+<main class="shop">
 
-<main class="relative z-10">
+  <header class="banner">
+    <p class="banner-kicker">&#9733; the lucky love machine &#9733;</p>
+    <h1 class="banner-title">Gacha<span>&#9825;</span>Gacha</h1>
+  </header>
 
-  <!-- ============ HERO ============ -->
-  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6">
-    <p class="fade-up text-blush-500 font-bold tracking-[0.4em] uppercase text-xs md:text-sm">psst&hellip; a little something</p>
-    <h1 class="fade-up d1 font-display font-extrabold text-5xl md:text-7xl leading-tight mt-4">
-      I made you<br /><span class="text-blush-500 inline-block wiggle">something</span>
-    </h1>
-    <p class="fade-up d2 mt-6 text-lg md:text-xl text-plum/70 max-w-md">
-      It isn&rsquo;t much &mdash; just my whole heart, folded into an envelope.
-    </p>
-    <a href="#envelope-section" class="scroll-hint mt-14 inline-flex flex-col items-center gap-2 text-blush-500 font-semibold">
-      scroll slowly, sweetheart
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-        <polyline points="6 9 12 15 18 9"/>
-      </svg>
-    </a>
-  </section>
+  <div class="stage">
+    <div class="machine" id="machine">
+      <div class="marquee" aria-live="polite"><span id="marquee">INSERT &#9825; TO PLAY</span></div>
 
-  <!-- ============ ENVELOPE ============ -->
-  <section id="envelope-section" class="min-h-screen flex flex-col items-center justify-center px-6 py-24 text-center">
-    <h2 class="font-display text-4xl md:text-5xl font-bold">You&rsquo;ve got <span class="text-blush-500">mail</span></h2>
-    <p class="mt-3 text-plum/60 text-lg">go on &mdash; give the seal a little tap</p>
-
-    <div class="env-wrap float-bob mt-16">
-      <div id="envelope" class="env" role="button" tabindex="0" aria-label="Open the love letter">
-        <div class="env-back"></div>
-        <div class="env-letter"><span class="font-hand text-2xl text-blush-600">for you &hearts;</span></div>
-        <div class="env-front"></div>
-        <div class="env-flap"></div>
-        <div class="env-seal">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </div>
+      <div class="globe" id="globe">
+        <div class="pile" id="pile"></div>
+        <span class="glare" aria-hidden="true"></span>
       </div>
-      <div class="env-shadow"></div>
+
+      <div class="body">
+        <div class="face" id="face" aria-hidden="true">
+          <span class="eye eye-l"><span class="pupil"></span></span>
+          <span class="eye eye-r"><span class="pupil"></span></span>
+          <span class="cheek cheek-l"></span>
+          <span class="cheek cheek-r"></span>
+          <span class="mouth"></span>
+        </div>
+
+        <div class="controls">
+          <div class="coins" aria-label="Heart coins left">
+            <span class="coin-icon" aria-hidden="true">&#9825;</span>
+            <span>&times;</span>
+            <span id="coin-count">7</span>
+          </div>
+          <button class="knob" id="knob" type="button" aria-label="Turn the crank">
+            <span class="knob-grip"></span>
+          </button>
+        </div>
+
+        <div class="chute" aria-hidden="true"><span class="chute-flap"></span></div>
+      </div>
+
+      <div class="feet" aria-hidden="true"><span></span><span></span></div>
     </div>
+
+    <div class="floor" id="floor"></div>
+  </div>
+
+  <p class="hint" id="hint">turn the crank!</p>
+
+  <section class="tray" aria-label="Your collection">
+    <p class="tray-title">my collection <span id="tray-count">0/7</span></p>
+    <ol class="tray-slots" id="tray"></ol>
   </section>
 
-  <!-- ============ REASONS ============ -->
-  <section id="reasons" class="px-6 py-24 max-w-5xl mx-auto text-center">
-    <h2 class="font-display text-4xl md:text-5xl font-bold">A few of my <span class="text-blush-500">favorite things</span></h2>
-    <p class="mt-3 text-plum/60 text-lg">out of roughly a million</p>
-    <div id="reasons-grid" class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 text-left"></div>
-  </section>
-
-  <!-- ============ QUESTION ============ -->
-  <section id="question" class="min-h-[80vh] flex flex-col items-center justify-center px-6 py-24 text-center overflow-hidden">
-    <h2 id="question-title" class="font-display text-4xl md:text-6xl font-bold max-w-2xl"></h2>
-    <p id="yes-message" class="hidden mt-6 font-hand text-4xl text-blush-600"></p>
-    <div id="answer-area" class="relative mt-14 h-60 w-full max-w-md">
-      <button id="yes-btn" type="button"
-        class="btn-yes absolute" style="left:35%; top:50%; transform:translate(-50%,-50%);">Yes!</button>
-      <button id="no-btn" type="button"
-        class="btn-no absolute" style="left:65%; top:50%; transform:translate(-50%,-50%);">No</button>
-    </div>
-  </section>
-
-  <footer class="pb-14 pt-6 text-center text-plum/50 text-sm flex items-center justify-center gap-1.5">
-    made with
-    <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-blush-500 pulse-heart"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    and too much love
-  </footer>
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true">
+    <svg id="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+      <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+      <path d="M18.5 5.5a9.4 9.4 0 0 1 0 13"/>
+    </svg>
+    <svg id="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+      <line x1="16" y1="9" x2="22" y2="15"/>
+      <line x1="22" y1="9" x2="16" y2="15"/>
+    </svg>
+  </button>
 </main>
 
-<!-- ============ LETTER OVERLAY ============ -->
-<div id="letter-overlay" class="fixed inset-0 z-50 hidden">
-  <div class="fixed inset-0 bg-plum/40 backdrop-blur-sm" data-close-letter></div>
-  <div class="relative min-h-full w-full flex items-center justify-center p-4 md:p-10">
-    <article id="letter-paper" class="paper relative w-full max-w-2xl rounded-2xl px-7 py-10 md:px-14 md:py-14">
-      <div class="tape" aria-hidden="true"></div>
-      <h3 id="letter-to" class="font-hand text-4xl md:text-5xl text-blush-600"></h3>
-      <div id="letter-body" class="mt-6 space-y-5"></div>
-      <p id="letter-sign" class="p-line mt-8 font-hand text-3xl"></p>
-      <p id="letter-from" class="p-line font-hand text-4xl text-blush-600"><span id="letter-from-text" class="inline-block -rotate-2"></span></p>
-      <p id="letter-ps" class="p-line mt-8 text-sm text-plum/60 italic"></p>
-      <button id="close-letter" type="button" class="btn-secondary mt-10">fold it back up</button>
-    </article>
+<!-- A capsule, opened: one reason sticker -->
+<div class="modal" id="prize" hidden role="dialog" aria-modal="true" aria-labelledby="prize-title">
+  <div class="modal-backdrop" data-close></div>
+  <div class="prize">
+    <div class="prize-capsule" id="prize-capsule" aria-hidden="true">
+      <span class="half half-top"></span>
+      <span class="half half-bottom"></span>
+    </div>
+    <div class="sticker" id="prize-card">
+      <p class="sticker-num" id="prize-num"></p>
+      <h2 class="sticker-title" id="prize-title"></h2>
+      <p class="sticker-text" id="prize-text"></p>
+      <button class="pill" id="prize-keep" type="button" data-close>add to collection</button>
+    </div>
   </div>
+</div>
+
+<!-- The super rare one: the letter -->
+<div class="modal" id="reader" hidden role="dialog" aria-modal="true" aria-label="The letter">
+  <div class="modal-backdrop" data-close></div>
+  <article class="letter">
+    <span class="letter-tape" aria-hidden="true"></span>
+    <p class="letter-badge">&#9733; super rare &#9733;</p>
+    <h2 class="letter-to" id="letter-to"></h2>
+    <div class="letter-body" id="letter-body"></div>
+    <p class="letter-sign" id="letter-sign"></p>
+    <p class="letter-from" id="letter-from"></p>
+    <p class="letter-ps" id="letter-ps"></p>
+    <button class="pill" id="close-letter" type="button" data-close>okay, now what?</button>
+  </article>
+</div>
+
+<!-- The question -->
+<div class="modal" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-q">
+  <div class="modal-backdrop"></div>
+  <section class="ask">
+    <div class="ask-face" aria-hidden="true">
+      <span class="eye"></span><span class="eye"></span>
+      <span class="cheek cheek-l"></span><span class="cheek cheek-r"></span>
+      <span class="mouth"></span>
+    </div>
+    <h2 class="ask-q" id="ask-q"></h2>
+    <p class="ask-yes" id="ask-yes" hidden></p>
+    <div class="ask-actions" id="ask-actions">
+      <button class="pill pill-yes" id="yes-btn" type="button">YES</button>
+      <button class="pill pill-no" id="no-btn" type="button">no</button>
+    </div>
+    <button class="pill pill-ghost" id="ask-done" type="button" hidden>&#9825; back to the machine</button>
+  </section>
 </div>
 
 <script src="vendor/three.min.js"></script>
 <script src="js/scene.js"></script>
 <script src="js/main.js"></script>
+<script src="js/ui.js"></script>
 </body>
 </html>

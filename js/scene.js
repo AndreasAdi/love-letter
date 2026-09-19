@@ -13,12 +13,12 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
   var scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xffe4ee, 15, 32);
+  scene.fog = new THREE.Fog(0xfdeefa, 15, 32);
 
   var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
   camera.position.set(0, 0, 16);
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xffc9dc, 1.05));
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd9c9ff, 1.1));
   var sun = new THREE.DirectionalLight(0xffffff, 0.7);
   sun.position.set(4, 8, 10);
   scene.add(sun);
@@ -44,7 +44,8 @@
     return geo;
   }
 
-  var PALETTE = ['#ff9ebf', '#ff86ab', '#f96292', '#ffc9dc', '#ffb3c9', '#e2437a'];
+  // Candy-shop pastels: bubblegum, mint, butter, lilac, sky.
+  var PALETTE = ['#ff8fb1', '#ffb3c9', '#7fdcc4', '#ffd45c', '#c7a8ff', '#8fcaff'];
   var heartGeo = makeHeartGeometry();
   var heartMats = PALETTE.map(function (c) {
     return new THREE.MeshStandardMaterial({ color: c, roughness: 0.55, metalness: 0 });
@@ -54,7 +55,7 @@
 
   /* ---------- drifting heart field ---------- */
   var hearts = [];
-  var HEART_COUNT = reduceMotion ? 22 : 80;
+  var HEART_COUNT = reduceMotion ? 16 : 48;
   for (var i = 0; i < HEART_COUNT; i++) {
     var m = new THREE.Mesh(heartGeo, heartMats[i % heartMats.length]);
     var size = rand(0.12, 0.42);
