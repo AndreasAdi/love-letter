@@ -13,6 +13,10 @@ var LETTER = {
   sign: 'Soli Deo Gloria,',
   from: 'Andreas',
   herName: 'Magdalena', // printed on the receipt after she says yes
+  // The moment she said yes, frozen onto the receipt. Leave saidYes empty
+  // to stamp it with the reader's own clock instead.
+  saidYes: '2026-09-19T18:44',
+  noDodges: 0,
   ps: '',
   reasons: [
     { title: 'Your Heart for God', text: 'Melihat betapa tulus dan aktifnya kamu melayani Tuhan. Kesungguhan imanmu selalu bikin aku terinspirasi dan makin menghormati siapa dirimu.' },

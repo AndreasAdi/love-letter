@@ -534,7 +534,8 @@
   }
 
   function buildReceipt() {
-    var when = yesAt || new Date();
+    var when = LETTER.saidYes ? new Date(LETTER.saidYes) : (yesAt || new Date());
+    var ranAway = LETTER.saidYes ? LETTER.noDodges : dodges;
     var MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     var date = ('0' + when.getDate()).slice(-2) + ' ' + MONTHS[when.getMonth()] + ' ' + when.getFullYear();
     var time = when.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
@@ -550,7 +551,7 @@
     row('PLAYS', String(TOTAL));
     row('REASONS COLLECTED', LETTER.reasons.length + '/' + LETTER.reasons.length);
     row('SUPER RARE LETTER', '1');
-    row('"NO" RAN AWAY', dodges + 'x');
+    row('"NO" RAN AWAY', ranAway ? ranAway + 'x' : 'NEVER \u2661');
     row('ANSWER', 'YES \u2665');
     add(receipt, 'r-rule');
     var box = add(receipt, 'r-prize-box r-center');
